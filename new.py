@@ -6,7 +6,8 @@ import io
 def show_person_details():
     want_age = int(age_entry.get())
     while True:
-        global personal_info
+        global personal_info ,email ,number , city, street
+        global image_response ,img_data , image_url , img
         response = requests.get('https://randomuser.me/api/')
         personal_info = response.json()
         age = personal_info['results'][0]['dob']['age']
@@ -17,6 +18,7 @@ def show_person_details():
             email = personal_info['results'][0]['email']
             accepted_age = f'Hey, now I have found a {age} years old person from {city}, living on {street}, number is {number}, email is {email}. Maybe you want to chat with.\nIf you want more details, push "again".'
             result_label.config(text=accepted_age)
+
 
             # باز کردن و نمایش تصویر
             image_url = personal_info['results'][0]['picture']['large']
@@ -33,11 +35,22 @@ def show_person_details():
     return personal_info
         
 def show_more():
+    global image_label1
     root1=tk.Tk()
-    root1.geometry("400x400")
+    root1.geometry("250x400")
     root1.title('more info')
-    show_more= tk.Label(root1 , justify="center", text=personal_info)
+    # image_label1 = tk.Label(root1)
+    show_more= tk.Label(root1 , justify="center", width=50 , height=300 ,  text=f"live in {city} , {street} \n number is : {number} \n email : {email}")
     show_more.pack()
+    # image_url = personal_info['results'][0]['picture']['large']
+    # image_response = requests.get(image_url)
+    # img_data = image_response.content
+    # img = Image.open(io.BytesIO(img_data))
+    # img = img.resize((150, 150), Image.LANCZOS)  # تغییر در این خط
+    # img = ImageTk.PhotoImage(img)
+    # image_label1.config(image=img)
+    # image_label1.image = img
+    # image_label1.pack()
 
 def send_sms(person):
     # sms_response = requests.post('https://api.kavenegar.com/v1/7065344F526B327A6359512B5A4E314A347332364355616A646D495A61364D39755047592B4E76343463773D/sms/send.json?receptor=09104346645&sender=10008663&message=%s' % personal_info)
